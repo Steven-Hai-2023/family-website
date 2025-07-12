@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Hành Trình Cùng Con Khôn Lớn (5 Tuổi) - Phiên bản AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: Infographic được cấu trúc theo một câu chuyện từ trên xuống dưới. Bắt đầu bằng một tiêu đề lớn và một biểu đồ Donut trực quan hóa 5 lĩnh vực phát triển cốt lõi, hoạt động như một mục lục hình ảnh. Tiếp theo, mỗi lĩnh vực được trình bày trong một phần riêng biệt, sử dụng thẻ (card), các con số nổi bật, và sơ đồ đơn giản được tạo bằng HTML/CSS để phân tích thông tin chi tiết. Các tính năng Gemini API được tích hợp trực tiếp vào các thẻ liên quan (sáng tác truyện trong mục trí tuệ, gợi ý hoạt động trong mục thể chất) để tăng tính tương tác và cung cấp giá trị gia tăng ngay tại ngữ cảnh. Cuối cùng là phần gợi ý sách. Cấu trúc này dẫn dắt người dùng một cách logic từ tổng quan đến chi tiết, phù hợp với định dạng infographic một trang, dễ cuộn và dễ tiêu hóa. -->
+    <!-- Visualization & Content Choices: 
+        1. 5 Lĩnh Vực Cốt Lõi -> Donut Chart (Chart.js/Canvas) -> Mục tiêu: Inform, Organize -> Trực quan hóa sự cân bằng của 5 lĩnh vực như các phần của một tổng thể. Justification: Thu hút, dễ hiểu hơn danh sách, tạo điểm nhấn mở đầu.
+        2. Giấc ngủ -> Single Big Number (HTML) -> Mục tiêu: Inform -> Làm nổi bật thông tin quan trọng "10-13 giờ" một cách mạnh mẽ. Justification: Con số lớn gây ấn tượng và dễ nhớ.
+        3. Vận động Tinh/Thô -> So sánh 2 cột (HTML/CSS) -> Mục tiêu: Compare -> Phân biệt rõ ràng hai loại hình vận động. Justification: So sánh trực tiếp là cách hiệu quả nhất để làm rõ sự khác biệt.
+        4. Quy tắc "Vùng đồ bơi" -> Sơ đồ đơn giản (HTML/CSS) -> Mục tiêu: Inform, Organize -> Trực quan hóa các vùng nhạy cảm trên cơ thể. Justification: Hình ảnh giúp trẻ em và phụ huynh dễ hình dung hơn nhiều so với chỉ dùng lời nói. NO SVG.
+        5. Đụng chạm Tốt/Xấu -> Sơ đồ quy trình (HTML/CSS) -> Mục tiêu: Organize -> Hiển thị quy trình xử lý khi gặp đụng chạm không an toàn. Justification: Sơ đồ quy trình giúp các quy tắc trở nên rõ ràng, có cấu trúc. NO SVG/Mermaid.
+        6. Gemini Story Generator -> Text Input & Button (HTML/JS) -> Mục tiêu: Engage, Create -> Cho phép người dùng tạo truyện cổ tích theo yêu cầu. Justification: Tăng tính tương tác, cung cấp công cụ sáng tạo thực tế cho phụ huynh.
+        7. Gemini Activity Suggester -> Button (HTML/JS) -> Mục tiêu: Inform, Engage -> Cung cấp các ý tưởng hoạt động mới mẻ. Justification: Giải quyết vấn đề "hôm nay chơi gì?", giữ cho nội dung luôn mới.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .section-title {
+            color: #073B4C;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        .chart-container {
+            position: relative; 
+            width: 100%; 
+            max-width: 450px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: auto;
+            aspect-ratio: 1/1;
+        }
+        .gemini-feature {
+            background-color: #f0f9ff; /* sky-50 */
+            border-top: 1px solid #e0f2fe; /* sky-100 */
+        }
+        .gemini-button {
+            background-color: #118AB2;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        .gemini-button:hover {
+            background-color: #073B4C;
+        }
+        .gemini-button:disabled {
+            background-color: #60a5fa;
+            cursor: not-allowed;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #118AB2;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto max-w-4xl px-4 py-8 sm:py-12">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold section-title mb-4">Hành Trình Cùng Con Khôn Lớn</h1>
+            <p class="text-lg md:text-xl text-stone-600">Cẩm nang phát triển toàn diện cho bé 5 tuổi - <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500">Tích hợp AI</span></p>
+        </header>
+
+        <section class="mb-16">
+            <div class="text-center mb-8">
+                 <h2 class="text-3xl font-bold section-title mb-2">5 Lĩnh Vực Phát Triển Cốt Lõi</h2>
+                 <p class="text-stone-600 max-w-2xl mx-auto">Để bé phát triển toàn diện, cần có sự quan tâm cân bằng đến 5 khía cạnh quan trọng sau đây, tạo nên một nền tảng vững chắc cho tương lai.</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="developmentDonutChart"></canvas>
+            </div>
+        </section>
+        
+        <div class="space-y-16">
+            
+            <section id="tritue" class="card">
+                <div class="p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-4 section-title">🧠 1. Phát triển Trí tuệ & Nhận thức</h3>
+                    <p class="mb-6 text-stone-600">Giai đoạn này bé cực kỳ tò mò. Việc kiên nhẫn trả lời câu hỏi "tại sao" và cùng bé khám phá qua trò chơi chính là cách bồi đắp trí tuệ tốt nhất.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-blue-800 mb-2">Đọc sách tương tác</h4>
+                            <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li>Dừng lại hỏi: "Theo con, chuyện gì xảy ra tiếp theo?".</li>
+                                <li>Khuyến khích bé kể lại câu chuyện theo tranh vẽ.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-green-800 mb-2">Toán học qua trò chơi</h4>
+                             <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li>Đếm mọi thứ xung quanh.</li>
+                                <li>So sánh to-nhỏ, cao-thấp.</li>
+                                <li>Tìm đồ vật có dạng hình tròn, vuông.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="gemini-feature p-6 md:p-8">
+                    <h4 class="font-bold text-lg text-blue-800 mb-4">✨ Trợ lý Kể chuyện AI</h4>
+                    <p class="text-stone-600 mb-4 text-sm">Hết ý tưởng kể chuyện cho bé? Hãy nhập một vài từ khóa (ví dụ: một chú thỏ, mặt trăng), AI sẽ giúp bạn sáng tác một câu chuyện ngắn trước giờ đi ngủ!</p>
+                    <div class="flex flex-col sm:flex-row gap-2 mb-4">
+                        <input type="text" id="story-prompt" placeholder="VD: chú gấu thích ăn mật ong và ngôi sao" class="flex-grow p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                        <button id="generate-story-btn" class="gemini-button">Tạo truyện</button>
+                    </div>
+                    <div id="story-loader" class="hidden my-4 flex justify-center"><div class="loader"></div></div>
+                    <div id="story-result" class="prose prose-sm max-w-none text-stone-700 bg-white p-4 rounded-md border border-stone-200 hidden"></div>
+                </div>
+            </section>
+
+            <section id="camxuc" class="card p-6 md:p-8">
+                <h3 class="text-2xl font-bold mb-4 section-title">❤️ 2. Phát triển Cảm xúc & Xã hội (EQ)</h3>
+                <p class="mb-6 text-stone-600">Nền tảng của sự hạnh phúc. Giúp con gọi tên cảm xúc và biết cách đồng cảm là món quà vô giá bạn có thể trao cho con.</p>
+                <div class="space-y-4">
+                     <div>
+                        <h4 class="font-semibold text-lg">Gọi tên cảm xúc</h4>
+                        <p class="text-stone-600">"Mẹ thấy con đang tức giận vì không được xem TV nữa, đúng không?". Giúp bé hiểu và chấp nhận cảm xúc của chính mình.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg">Dạy về sự đồng cảm</h4>
+                        <p class="text-stone-600">Khi đọc truyện, hãy hỏi: "Con thấy bạn nhân vật đang cảm thấy thế nào?".</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg">Xây dựng tình yêu thương</h4>
+                        <p class="text-stone-600">Tạo các "nghi thức" gia đình như bữa tối cùng nhau, những cái ôm chúc ngủ ngon để gắn kết tình cảm.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="antoan" class="card p-6 md:p-8">
+                <h3 class="text-2xl font-bold mb-4 section-title">🛡️ 3. Giáo dục Giới tính & An toàn</h3>
+                <p class="mb-6 text-stone-600">Trang bị cho con kiến thức để tự bảo vệ bản thân là trách nhiệm quan trọng của cha mẹ.</p>
+                <div class="grid lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h4 class="font-bold text-lg mb-2 text-center">Quy tắc "Vùng Đồ Bơi"</h4>
+                        <div class="relative w-40 h-64 mx-auto bg-stone-200 rounded-t-full rounded-b-lg p-2">
+                             <div class="absolute top-10 left-1/2 -translate-x-1/2 w-16 h-16 bg-red-400 rounded-full flex items-center justify-center text-white font-bold text-sm text-center leading-tight">Vùng riêng tư</div>
+                             <div class="absolute bottom-12 left-1/2 -translate-x-1/2 w-20 h-10 bg-red-400 rounded-lg"></div>
+                        </div>
+                        <p class="text-center mt-2 text-sm text-stone-600">Giải thích cho bé không ai được nhìn hay chạm vào những vùng này.</p>
+                    </div>
+                     <div>
+                        <h4 class="font-bold text-lg mb-2 text-center">Phân biệt Đụng chạm Tốt / Xấu</h4>
+                        <div class="space-y-2 text-center">
+                            <div class="p-3 bg-green-100 border-l-4 border-green-500 rounded">
+                                <p class="font-semibold text-green-800">TỐT 👍</p>
+                                <p class="text-sm text-stone-600">Cái ôm của bố mẹ, vỗ vai an ủi.</p>
+                            </div>
+                            <div class="text-2xl">↓</div>
+                             <div class="p-3 bg-red-100 border-l-4 border-red-500 rounded">
+                                <p class="font-semibold text-red-800">XẤU 👎</p>
+                                <p class="text-sm text-stone-600">Chạm vào "vùng đồ bơi", làm bé khó chịu.</p>
+                            </div>
+                             <div class="text-2xl">↓</div>
+                              <div class="p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded">
+                                <p class="font-semibold text-yellow-800">HÀNH ĐỘNG!</p>
+                                <p class="text-sm text-stone-600">Hét lớn "KHÔNG!", chạy đi và kể ngay cho bố mẹ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="thechat" class="card">
+                <div class="p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-4 section-title">🤸 4. Phát triển Thể chất</h3>
+                    <p class="mb-6 text-stone-600">Vận động giúp bé phát triển cả về thể lực lẫn sự khéo léo, là nền tảng cho việc học tập và vui chơi.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border border-yellow-300 bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-yellow-800 mb-2">Vận động tinh (khéo léo)</h4>
+                            <p class="text-sm mb-2">Giúp việc cầm bút, viết chữ dễ dàng hơn.</p>
+                            <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li>Tô màu, vẽ, nặn đất sét</li>
+                                <li>Chơi xâu hạt, cài cúc áo</li>
+                            </ul>
+                        </div>
+                        <div class="border border-teal-300 bg-teal-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg text-teal-800 mb-2">Vận động thô (sức mạnh)</h4>
+                             <p class="text-sm mb-2">Giúp cơ thể khỏe mạnh, dẻo dai.</p>
+                             <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li>Chạy nhảy, leo trèo, đi xe đạp</li>
+                                <li>Chơi các hoạt động ngoài trời</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 <div class="gemini-feature p-6 md:p-8">
+                    <h4 class="font-bold text-lg text-blue-800 mb-4">✨ Ngân hàng Ý tưởng Vận động</h4>
+                    <p class="text-stone-600 mb-4 text-sm">Cần thêm ý tưởng để bé vận động? Nhấn nút để AI gợi ý các trò chơi mới lạ và vui nhộn!</p>
+                    <div class="text-center">
+                        <button id="generate-activity-btn" class="gemini-button">Gợi ý hoạt động mới</button>
+                    </div>
+                    <div id="activity-loader" class="hidden my-4 flex justify-center"><div class="loader"></div></div>
+                    <div id="activity-result" class="prose prose-sm max-w-none text-stone-700 bg-white p-4 rounded-md border border-stone-200 hidden mt-4"></div>
+                </div>
+            </section>
+            
+            <section id="dinhduong" class="card p-6 md:p-8">
+                 <h3 class="text-2xl font-bold mb-4 section-title">🥗 5. Dinh dưỡng & Lối sống</h3>
+                 <p class="mb-6 text-stone-600">Ăn uống đủ chất và ngủ đủ giấc là hai "viên gạch" quan trọng nhất xây dựng nên một cơ thể khỏe mạnh và trí tuệ minh mẫn.</p>
+                 <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center bg-indigo-50 p-6 rounded-lg">
+                        <p class="text-indigo-800 text-lg">Bé cần ngủ</p>
+                        <p class="text-6xl lg:text-7xl font-extrabold text-indigo-600 my-2">10-13</p>
+                        <p class="text-indigo-800 text-lg">tiếng mỗi ngày</p>
+                        <p class="text-sm text-stone-500 mt-2">(Bao gồm cả giấc ngủ trưa)</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-2">Nguyên tắc Bàn ăn Vui vẻ</h4>
+                        <ul class="list-none space-y-2">
+                           <li class="flex items-start gap-3">
+                                <span class="text-green-500 font-bold text-xl mt-1">✔</span>
+                                <div><span class="font-semibold">Cân bằng 4 nhóm chất:</span> Tinh bột, đạm, béo, vitamin.</div>
+                           </li>
+                           <li class="flex items-start gap-3">
+                                <span class="text-green-500 font-bold text-xl mt-1">✔</span>
+                                <div><span class="font-semibold">Làm gương:</span> Bố mẹ hãy ăn đa dạng các loại rau củ.</div>
+                           </li>
+                           <li class="flex items-start gap-3">
+                                <span class="text-red-500 font-bold text-xl mt-1">✘</span>
+                                <div><span class="font-semibold">Không ép ăn:</span> Tôn trọng cảm giác no/đói của con.</div>
+                           </li>
+                        </ul>
+                    </div>
+                 </div>
+            </section>
+
+             <section id="sach" class="text-center">
+                <h3 class="text-3xl font-bold mb-6 section-title">📚 Tủ Sách Cùng Con</h3>
+                <p class="text-stone-600 max-w-2xl mx-auto mb-8">Những cuốn sách này là công cụ tuyệt vời để trò chuyện cùng con về các chủ đề quan trọng.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <div class="card p-4 text-center">
+                        <p class="font-bold text-lg">Cảm xúc</p>
+                        <p class="text-sm text-stone-600">Bộ "Chú thỏ Tobi"</p>
+                    </div>
+                     <div class="card p-4 text-center">
+                        <p class="font-bold text-lg">Giới tính</p>
+                        <p class="text-sm text-stone-600">Bộ "Mon và Runa"</p>
+                    </div>
+                     <div class="card p-4 text-center">
+                        <p class="font-bold text-lg">Tri thức</p>
+                        <p class="text-sm text-stone-600">"Bách khoa thư cho bé"</p>
+                    </div>
+                     <div class="card p-4 text-center">
+                        <p class="font-bold text-lg">Kỹ năng sống</p>
+                        <p class="text-sm text-stone-600">"Chuyện về lòng biết ơn"</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="text-center mt-16 pt-8 border-t border-stone-200">
+            <p class="text-sm text-stone-500">Chúc bạn và gia đình có một hành trình nuôi dạy con thật nhiều niềm vui!</p>
+        </footer>
+    </div>
+    
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('developmentDonutChart').getContext('2d');
+
+    const rawLabels = [
+        'Phát triển Trí tuệ & Nhận thức',
+        'Phát triển Cảm xúc & Kỹ năng Xã hội',
+        'Giáo dục Giới tính & An toàn Thân thể',
+        'Phát triển Thể chất',
+        'Dinh dưỡng & Nếp sống lành mạnh'
+    ];
+
+    function wrapText(str, maxWidth) {
+        if (str.length <= maxWidth) {
+            return str;
+        }
+        const words = str.split(' ');
+        let currentLine = '';
+        const lines = [];
+        for (let word of words) {
+            if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine = (currentLine + ' ' + word).trim();
+            }
+        }
+        if (currentLine) {
+            lines.push(currentLine.trim());
+        }
+        return lines;
+    }
+
+    const processedLabels = rawLabels.map(label => wrapText(label, 18));
+    
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: processedLabels,
+            datasets: [{
+                label: 'Lĩnh vực phát triển',
+                data: [20, 20, 20, 20, 20],
+                backgroundColor: [
+                    '#118AB2', // Blue
+                    '#FF6B6B', // Red
+                    '#FFD166', // Yellow
+                    '#06D6A0', // Green
+                    '#7552cc'  // Indigo from a similar palette
+                ],
+                borderColor: '#f8fafc',
+                borderWidth: 4,
+                hoverOffset: 15
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 14,
+                            family: "'Be Vietnam Pro', sans-serif"
+                        },
+                        color: '#44403c', // stone-700
+                        padding: 20,
+                        boxWidth: 15,
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    bodyFont: {
+                       size: 14,
+                       family: "'Be Vietnam Pro', sans-serif"
+                    },
+                    titleFont: {
+                       size: 16,
+                       weight: 'bold',
+                       family: "'Be Vietnam Pro', sans-serif"
+                    },
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        },
+                        label: function(context) {
+                            return ' Tầm quan trọng cân bằng';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Gemini API Integration
+    const storyPromptInput = document.getElementById('story-prompt');
+    const generateStoryBtn = document.getElementById('generate-story-btn');
+    const storyLoader = document.getElementById('story-loader');
+    const storyResultDiv = document.getElementById('story-result');
+
+    const generateActivityBtn = document.getElementById('generate-activity-btn');
+    const activityLoader = document.getElementById('activity-loader');
+    const activityResultDiv = document.getElementById('activity-result');
+    
+    const apiKey = ""; // API key will be provided by the environment
+
+    async function callGemini(prompt, button, loader, resultDiv) {
+        button.disabled = true;
+        loader.style.display = 'flex';
+        resultDiv.style.display = 'none';
+        resultDiv.innerHTML = '';
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        
+        const payload = {
+            contents: [{
+                role: "user",
+                parts: [{ text: prompt }]
+            }]
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API call failed with status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                const text = result.candidates[0].content.parts[0].text;
+                // Simple markdown to HTML conversion
+                let htmlText = text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>');
+                resultDiv.innerHTML = htmlText;
+                resultDiv.style.display = 'block';
+            } else {
+                resultDiv.innerHTML = 'Không nhận được phản hồi hợp lệ từ AI. Vui lòng thử lại.';
+                resultDiv.style.display = 'block';
+            }
+
+        } catch (error) {
+            console.error("Gemini API call error:", error);
+            resultDiv.innerHTML = 'Đã có lỗi xảy ra khi kết nối tới AI. Vui lòng kiểm tra lại và thử lại sau.';
+            resultDiv.style.display = 'block';
+        } finally {
+            button.disabled = false;
+            loader.style.display = 'none';
+        }
+    }
+
+    generateStoryBtn.addEventListener('click', () => {
+        const userInput = storyPromptInput.value.trim();
+        if (!userInput) {
+            alert('Vui lòng nhập chủ đề cho câu chuyện.');
+            return;
+        }
+        const prompt = `Hãy viết một câu chuyện cổ tích ngắn (khoảng 150-200 từ) cho bé 5 tuổi về chủ đề: "${userInput}". Câu chuyện cần có ngôn từ trong sáng, dễ hiểu, kết thúc có hậu và mang một bài học nhẹ nhàng về tình bạn, lòng dũng cảm, hoặc sự chia sẻ.`;
+        callGemini(prompt, generateStoryBtn, storyLoader, storyResultDiv);
+    });
+
+    generateActivityBtn.addEventListener('click', () => {
+        const prompt = `Hãy gợi ý 3 hoạt động vận động tinh và 3 hoạt động vận động thô mới lạ cho bé 5 tuổi, ngoài những hoạt động đã quá quen thuộc. Trình bày dưới dạng danh sách có tiêu đề rõ ràng cho mỗi loại.`;
+        callGemini(prompt, generateActivityBtn, activityLoader, activityResultDiv);
+    });
+
+});
+</script>
+</body>
+</html>
