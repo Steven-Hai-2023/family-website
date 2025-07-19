@@ -41,6 +41,10 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        .gemini-button:disabled {
+            background: #A0AEC0;
+            cursor: not-allowed;
+        }
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #48BB78;
@@ -288,10 +292,20 @@
             const resultContainer = document.getElementById('gemini-result-container');
             const loader = document.getElementById('gemini-loader');
             const content = document.getElementById('gemini-content');
+            const button = document.getElementById('gemini-button');
+
+            const apiKey = "AIzaSyCFhbLtZx4YPSAkPfecHnSCaBeVi-852Qc"; // <-- DÁN API KEY CỦA BẠN VÀO ĐÂY
+
+            if (apiKey === "AIzaSyCFhbLtZx4YPSAkPfecHnSCaBeVi-852Qc") {
+                resultContainer.style.display = 'block';
+                content.innerHTML = `<p class="text-red-500 font-bold">Lỗi: Vui lòng thêm API Key của bạn vào file HTML. Bạn có thể lấy key miễn phí từ Google AI Studio.</p>`;
+                return;
+            }
             
             resultContainer.style.display = 'block';
             loader.style.display = 'flex';
             content.innerHTML = '';
+            button.disabled = true;
 
             const insight = "Gần một phần ba nhân viên không cảm thấy được trân trọng.";
             const prompt = `Bạn là một chuyên gia phân tích kinh doanh và nhân sự. Một cuộc khảo sát nội bộ cho thấy insight quan trọng sau: "${insight}". 
@@ -305,7 +319,6 @@
             try {
                 let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
                 const payload = { contents: chatHistory };
-                const apiKey = "";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                 
                 const response = await fetch(apiUrl, {
@@ -333,6 +346,7 @@
                 content.innerHTML = `<p class="text-red-500">Đã xảy ra lỗi khi tạo phân tích. Vui lòng kiểm tra console để biết thêm chi tiết.</p>`;
             } finally {
                 loader.style.display = 'none';
+                button.disabled = false;
             }
         }
 
