@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic (AI-Powered): Từ Dữ Liệu Đến Câu Chuyện Thuyết Phục</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #F7F7F7;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .step-arrow {
+            font-size: 2.5rem;
+            color: #4A5568;
+            line-height: 1;
+        }
+        .gemini-button {
+            background: linear-gradient(45deg, #48BB78, #81E6D9);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .gemini-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #48BB78;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Biến Dữ Liệu Thành Câu Chuyện</h1>
+            <p class="text-lg md:text-xl text-gray-600">Phân tích case study từ "Storytelling with Data" với sức mạnh tăng cường từ AI</p>
+        </header>
+
+        <main>
+            <section id="challenge" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2" style="color: #FF6B6B;">Thách Thức: Biểu Đồ "Trưng Bày Dữ Liệu"</h2>
+                    <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">Biểu đồ ban đầu thể hiện kết quả khảo sát nhân viên. Mặc dù chứa đựng đầy đủ thông tin, nó lại thất bại trong việc truyền tải một thông điệp rõ ràng, đặt gánh nặng diễn giải lên vai người xem.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="chart-container">
+                            <canvas id="beforeChart"></canvas>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">Các vấn đề cốt lõi:</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-2xl mr-3" style="color: #FF6B6B;">⚠️</span>
+                                    <div>
+                                        <h4 class="font-bold">Khó so sánh</h4>
+                                        <p class="text-gray-600">Các thành phần không có chung đường cơ sở (baseline) khiến việc so sánh trực quan gần như không thể.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-2xl mr-3" style="color: #FF6B6B;">🤯</span>
+                                    <div>
+                                        <h4 class="font-bold">Quá tải nhận thức</h4>
+                                        <p class="text-gray-600">Bảng màu cầu vồng và quá nhiều phân khúc dữ liệu gây nhiễu và làm người xem mất tập trung.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-2xl mr-3" style="color: #FF6B6B;">❓</span>
+                                    <div>
+                                        <h4 class="font-bold">Thiếu điểm nhấn</h4>
+                                        <p class="text-gray-600">Mọi dữ liệu được trình bày "bình đẳng", không có insight nào được làm nổi bật. Câu chuyện ở đâu?</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="process" class="mb-16">
+                 <h2 class="text-3xl font-bold text-center mb-8" style="color: #48BB78;">Quy Trình 5 Bước Để "Kể Chuyện"</h2>
+                <div class="flex flex-col md:flex-row justify-center items-center md:items-start space-y-8 md:space-y-0 md:space-x-4">
+                    <div class="text-center flex-1 max-w-xs"><div class="bg-white rounded-full h-24 w-24 flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-gray-200"><span class="text-4xl">🎯</span></div><h4 class="font-bold">1. Xác định thông điệp</h4><p class="text-sm text-gray-600">"Gần 1/3 nhân viên không cảm thấy được trân trọng."</p></div>
+                    <div class="step-arrow mt-8 hidden md:block">&#10142;</div>
+                    <div class="text-center flex-1 max-w-xs"><div class="bg-white rounded-full h-24 w-24 flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-gray-200"><span class="text-4xl">📊</span></div><h4 class="font-bold">2. Chọn biểu đồ phù hợp</h4><p class="text-sm text-gray-600">Chuyển từ cột chồng sang thanh ngang 100% để dễ so sánh.</p></div>
+                    <div class="step-arrow mt-8 hidden md:block">&#10142;</div>
+                    <div class="text-center flex-1 max-w-xs"><div class="bg-white rounded-full h-24 w-24 flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-gray-200"><span class="text-4xl">🧹</span></div><h4 class="font-bold">3. Dọn dẹp sự lộn xộn</h4><p class="text-sm text-gray-600">Loại bỏ các đường lưới, viền, nhãn thừa để tập trung vào dữ liệu.</p></div>
+                    <div class="step-arrow mt-8 hidden md:block">&#10142;</div>
+                    <div class="text-center flex-1 max-w-xs"><div class="bg-white rounded-full h-24 w-24 flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-gray-200"><span class="text-4xl">🎨</span></div><h4 class="font-bold">4. Dùng màu sắc chiến lược</h4><p class="text-sm text-gray-600">Dùng màu xám cho bối cảnh và màu nổi bật cho insight chính.</p></div>
+                    <div class="step-arrow mt-8 hidden md:block">&#10142;</div>
+                    <div class="text-center flex-1 max-w-xs"><div class="bg-white rounded-full h-24 w-24 flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-gray-200"><span class="text-4xl">✍️</span></div><h4 class="font-bold">5. Dẫn dắt bằng văn bản</h4><p class="text-sm text-gray-600">Sử dụng tiêu đề chủ động và chú thích để kể câu chuyện.</p></div>
+                </div>
+            </section>
+            
+            <section id="result" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2" style="color: #48BB78;">Kết Quả: Biểu Đồ "Kể Chuyện"</h2>
+                    <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">Biểu đồ sau khi cải thiện đã trở thành một công cụ giao tiếp mạnh mẽ. Nó không chỉ trình bày dữ liệu mà còn chủ động dẫn dắt người xem đến insight quan trọng nhất.</p>
+                    <div class="chart-container">
+                        <canvas id="afterChart"></canvas>
+                    </div>
+                    <div class="mt-6 text-center text-gray-600">
+                        <p>Thông điệp <strong style="color: #FF6B6B;">"Gần một phần ba nhân viên không cảm thấy được trân trọng"</strong> giờ đây đã trở nên rõ ràng ngay từ cái nhìn đầu tiên.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="gemini-analysis" class="mb-16">
+                 <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-4">Từ Insight đến Hành Động với AI</h2>
+                    <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">Một insight rõ ràng là bước khởi đầu. Hãy xem AI có thể giúp chúng ta diễn giải và đề xuất các bước tiếp theo như thế nào.</p>
+                    <div class="text-center mb-6">
+                        <button id="gemini-button" class="gemini-button text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                            ✨ Tạo Phân Tích Chuyên Sâu (AI)
+                        </button>
+                    </div>
+                    <div id="gemini-result-container" class="mt-4 p-6 bg-gray-50 rounded-lg border border-gray-200" style="display: none;">
+                        <div id="gemini-loader" class="flex justify-center items-center">
+                            <div class="loader"></div>
+                        </div>
+                        <div id="gemini-content"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="takeaways">
+                <h2 class="text-3xl font-bold text-center mb-8">Bài Học Cho Nhà Phân Tích Dữ Liệu</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <span class="text-5xl mb-4 block">🧠</span>
+                        <h4 class="text-xl font-bold mb-2">Tư duy chuyển đổi</h4>
+                        <p class="text-gray-600">Ngừng hỏi "Hiển thị dữ liệu này thế nào?", hãy hỏi "Truyền đạt thông điệp này thế nào hiệu quả nhất?".</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <span class="text-5xl mb-4 block">📖</span>
+                        <h4 class="text-xl font-bold mb-2">Kiểm soát câu chuyện</h4>
+                        <p class="text-gray-600">Mỗi lựa chọn thiết kế là một cơ hội để bạn định hình cách người khác diễn giải kết quả phân tích của bạn.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                        <span class="text-5xl mb-4 block">🚀</span>
+                        <h4 class="text-xl font-bold mb-2">Từ phân tích đến ảnh hưởng</h4>
+                        <p class="text-gray-600">Một biểu đồ tốt không chỉ trình bày sự thật, nó thúc đẩy thảo luận và dẫn đến quyết định, tạo ra tầm ảnh hưởng.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t">
+            <p class="text-sm text-gray-500">Infographic được tạo dựa trên phân tích từ "Storytelling with Data" và tăng cường bởi Gemini API.</p>
+        </footer>
+    </div>
+
+    <script>
+        const chartData = {
+            labels: ['Nhóm A', 'Nhóm B', 'Nhóm C', 'Nhóm D', 'Nhóm E'],
+            datasets: [
+                { label: 'Hoàn toàn không đồng ý', data: [5, 8, 6, 10, 7], backgroundColor: '#FF6B6B' },
+                { label: 'Không đồng ý', data: [15, 12, 18, 20, 16], backgroundColor: '#FFA07A' },
+                { label: 'Trung lập', data: [10, 15, 11, 5, 12], backgroundColor: '#FFD700' },
+                { label: 'Đồng ý', data: [50, 45, 40, 45, 40], backgroundColor: '#98FB98' },
+                { label: 'Hoàn toàn đồng ý', data: [20, 20, 25, 20, 25], backgroundColor: '#48BB78' }
+            ]
+        };
+
+        function processLabels(labels, maxLength) {
+            return labels.map(label => {
+                if (label.length <= maxLength) {
+                    return label;
+                }
+                const words = label.split(' ');
+                let currentLine = '';
+                const lines = [];
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > maxLength) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            });
+        }
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const commonTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            }
+        };
+        
+        function createBeforeChart() {
+            const ctx = document.getElementById('beforeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    ...commonTooltipConfig,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { stacked: true }, y: { stacked: true } },
+                    plugins: {
+                        ...commonTooltipConfig.plugins,
+                        title: { display: true, text: 'Kết quả khảo sát mức độ nhân viên cảm thấy được trân trọng', padding: { top: 10, bottom: 20 } },
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function createAfterChart() {
+            const ctx = document.getElementById('afterChart').getContext('2d');
+            const afterData = {
+                labels: processLabels(['Nhóm D', 'Nhóm C', 'Nhóm E', 'Nhóm A', 'Nhóm B'], 16),
+                datasets: [
+                    { label: 'Không cảm thấy được trân trọng', data: [30, 24, 23, 20, 20], backgroundColor: '#FF6B6B' },
+                    { label: 'Cảm thấy được trân trọng / Trung lập', data: [70, 76, 77, 80, 80], backgroundColor: '#CBD5E0' }
+                ]
+            };
+            new Chart(ctx, {
+                type: 'bar',
+                data: afterData,
+                options: {
+                    ...commonTooltipConfig,
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, max: 100, ticks: { callback: value => value + '%' } },
+                        y: { stacked: true }
+                    },
+                    plugins: {
+                        ...commonTooltipConfig.plugins,
+                        title: { display: true, text: 'Gần 1/3 nhân viên không cảm thấy được trân trọng', font: { size: 18, weight: 'bold' }, color: '#2D3748', padding: { top: 10, bottom: 20 } },
+                        legend: { position: 'bottom', labels: { boxWidth: 20 } },
+                        tooltip: {
+                            ...commonTooltipConfig.plugins.tooltip,
+                            callbacks: {
+                                ...commonTooltipConfig.plugins.tooltip.callbacks,
+                                label: context => `${context.dataset.label || ''}: ${context.parsed.x !== null ? context.parsed.x + '%' : ''}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function getGeminiAnalysis() {
+            const resultContainer = document.getElementById('gemini-result-container');
+            const loader = document.getElementById('gemini-loader');
+            const content = document.getElementById('gemini-content');
+            
+            resultContainer.style.display = 'block';
+            loader.style.display = 'flex';
+            content.innerHTML = '';
+
+            const insight = "Gần một phần ba nhân viên không cảm thấy được trân trọng.";
+            const prompt = `Bạn là một chuyên gia phân tích kinh doanh và nhân sự. Một cuộc khảo sát nội bộ cho thấy insight quan trọng sau: "${insight}". 
+
+            Dựa trên insight này, hãy tạo một bản phân tích ngắn gọn cho ban lãnh đạo. Trình bày câu trả lời bằng tiếng Việt, cấu trúc thành 2 phần rõ ràng:
+            1.  **Các Tác Động Tiềm Tàng Đến Doanh Nghiệp:**
+            2.  **Các Bước Hành Động Đề Xuất:**
+
+            Sử dụng gạch đầu dòng cho mỗi mục để dễ theo dõi.`;
+
+            try {
+                let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                let text = 'Không thể tạo phân tích. Vui lòng thử lại.';
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                    text = result.candidates[0].content.parts[0].text;
+                }
+                
+                content.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>')
+                                        .replace(/\*/g, '<br> &bull; ');
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                content.innerHTML = `<p class="text-red-500">Đã xảy ra lỗi khi tạo phân tích. Vui lòng kiểm tra console để biết thêm chi tiết.</p>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createBeforeChart();
+            createAfterChart();
+            document.getElementById('gemini-button').addEventListener('click', getGeminiAnalysis);
+        });
+    </script>
+</body>
+</html>
